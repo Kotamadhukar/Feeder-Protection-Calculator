@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeder protection</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>FEEDER PROTECTION</h1>
+            </div>
+            <p class="subtitle">IDMT & DIRECTIONALITY</p>
+        </header>
+
+        <!-- Calculator Type Selection -->
+        <div class="calc-type-selector">
+            <button class="calc-type-btn active" data-calc="idmt" onclick="switchCalculator('idmt')">
+                <span class="btn-icon">⏱️</span>
+                <span>IDMT CALCULATOR</span>
+            </button>
+            <button class="calc-type-btn" data-calc="region" onclick="switchCalculator('region')">
+                <span class="btn-icon">📐</span>
+                <span>DIRECTIONALITY</span>
+            </button>
+        </div>
+
+        <!-- IDMT Calculator Section -->
+        <div id="idmt-calc" class="calculator-section active">
+            <div class="card">
+                <div class="card-header">
+                    <h2>IDMT Tripping Time</h2>
+                </div>
+
+                <div class="select-wrapper">
+                    <label class="field-label">Curve Type</label>
+                    <select id="curveType">
+                        <option value="CT">Choose Curve Type</option>
+                        <option value="SI">Standard Inverse (SI)</option>
+                        <option value="VI">Very Inverse (VI)</option>
+                        <option value="EI">Extremely Inverse (EI)</option>
+                        <option value="LTI">Long Time Inverse (LTI)</option>
+                    </select>
+                </div>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label class="field-label">TMS Value</label>
+                        <input type="number" id="tms" placeholder="Enter TMS value" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="field-label">Fault Current (A)</label>
+                        <input type="number" id="fCurrent" placeholder="Enter fault current">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="field-label">Set Current (A)</label>
+                        <input type="number" id="sCurrent" placeholder="Enter set current">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculate()">
+                    <span>Calculate Tripping Time</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <div id="result" class="result-box"></div>
+
+                <!-- IDMT Graph Section -->
+                <div id="idmt-graph-container" class="graph-container" style="display: none;">
+                    <h3 class="graph-title">📈 IDMT Curve Characteristics</h3>
+                    <canvas id="idmtChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Directionality Calculator Section -->
+        <div id="region-calc" class="calculator-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Operating Region</h2>
+                </div>
+
+                <!-- Fault Type Selection -->
+                <div class="select-wrapper">
+                    <label class="field-label">Fault Type</label>
+                    <select id="faultType" onchange="updatePhaseInfo()">
+                        <option value="PHASE">Over Current Directionality</option>
+                        <option value="EARTH">Earth Fault Directionality</option>
+                    </select>
+                </div>
+
+                <!-- Phase Selection -->
+                <div class="select-wrapper">
+                    <label class="field-label">Select Phase</label>
+                    <select id="phaseSelect">
+                        <option value="ALL">All Phases (R, Y, B)</option>
+                        <option value="R">R-Phase Only</option>
+                        <option value="Y">Y-Phase Only</option>
+                        <option value="B">B-Phase Only</option>
+                    </select>
+                </div>
+
+                <div class="input-group full-width">
+                    <label class="field-label">RCA Value (Degrees)</label>
+                    <input type="number" id="rcaValue" placeholder="Enter RCA value" step="0.1">
+                </div>
+
+
+                <!-- Phase Info - Dynamic based on Fault Type -->
+
+                <div id="phase-info-container" class="phase-info">
+                    <div class="phase-badge r-phase">
+                        <span class="phase-dot"></span>
+                        <span id="r-phase-label">R-Phase: -90°</span>
+                    </div>
+                    <div class="phase-badge y-phase">
+                        <span class="phase-dot"></span>
+                        <span id="y-phase-label">Y-Phase: 150°</span>
+                    </div>
+                    <div class="phase-badge b-phase">
+                        <span class="phase-dot"></span>
+                        <span id="b-phase-label">B-Phase: 30°</span>
+                    </div>
+                </div>
+
+
+                <button class="calculate-btn" onclick="calculateRegion()">
+                    <span>Calculate Operating Region</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+
+                <div id="region-result" class="result-box"></div>
+
+                <!-- Directionality Graph Section -->
+                <div id="region-graph-container" class="graph-container" style="display: none;">
+                    <h3 class="graph-title" id="graph-title-text">📊 Phase Region - Vector Diagram</h3>
+                    <div class="coordinate-graph-wrapper">
+                        <canvas id="regionChart"></canvas>
+                    </div>
+                    <div id="graph-legend" class="graph-legend"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2026 All rights reserved by Madhukar Kota. </p>
+        </footer>
+    </div>
+
+    <script src="Connection.js"></script>
+
+</body>
+
+</html>
