@@ -26,8 +26,8 @@ CSS3
 JavaScript (ES6+)
 
 Deployment
-The project is live and can be accessed at: yashwanthcalculation.netlify.app
-
+The project is live and can be accessed at: [yashwanthcalculation.netlify.app
+](https://yashwanthcalculation.netlify.app/)
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/da40de03-6d66-4d1f-a912-56dcaa2fe059" />
 <img width="630" height="899" alt="image" src="https://github.com/user-attachments/assets/f46a8ec4-bb29-4fc7-a04b-1036844cdde3" />
 
